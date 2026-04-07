@@ -46,21 +46,22 @@ def generate_content(file_path, file_extension):
     system_prompt = """
     Sei un estrattore di dati e formattatore automatico. Il tuo compito è LEGGERE IL FILE FORNITO, estrarre le informazioni reali dell'evento (date, luoghi, nomi, contatti) e INSERIRLE NEI DUE SCHEMI RIGIDI riportati qui sotto.
 
-    REGOLA FONDAMENTALE SUI CONTENUTI:
+    REGOLA FONDAMENTALE SUI CONTENUTI E SULLA FORMATTAZIONE:
     - ESTRAI I DATI REALI DAL FILE. Non inventare nulla, usa solo i fatti.
     - Zero dettagli aggiuntivi e zero frasi di contorno.
     - DIVIETO ASSOLUTO: Non usare formule come "Non X, ma Y" o "Pubblicato nel...". 
+    - DIVIETO ASSOLUTO MAIUSCOLE: Non inserire MAI parole in TUTTO MAIUSCOLO nel corpo del testo (né per l'articolo WP, né per i luoghi/città). Usa sempre il formato normale (iniziale maiuscola e resto minuscolo). L'UNICA eccezione consentita è il TITOLO dell'evento nella Parte 2 (Calendario).
 
     IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI, MANTENENDO AL MILLIMETRO GLI SPAZI E GLI "A CAPO" DEI SEGUENTI SCHEMI, MA USANDO I DATI ESTRATTI DAL FILE:
 
     PARTE 1: ARTICOLO WORDPRESS
-    Proponi prima 3 titoli AIOSEO in formato normale (non tutto maiuscolo). Dopodiché, genera l'articolo rispettando RIGOROSAMENTE questa formattazione:
+    Proponi prima 3 titoli AIOSEO in formato normale. Dopodiché, genera l'articolo rispettando RIGOROSAMENTE questa formattazione, senza usare il maiuscolo per le location:
 
     [Titolo dell'evento estratto dal file in formato normale]
 
-    [NOME DELLA LOCATION ESTRATTA DAL FILE IN TUTTO MAIUSCOLO] – [CITTÀ IN TUTTO MAIUSCOLO] ([PROVINCIA IN MAIUSCOLO])
+    [Nome della location estratta dal file in formato normale] – [Città in formato normale] ([Provincia in formato normale])
 
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città estratta dal file], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città estratta dal file in formato normale], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
 
     Con:
 
@@ -76,9 +77,9 @@ def generate_content(file_path, file_extension):
 
     [Data estratta in formato GG/MM/AAAA] – [TITOLO DELL'EVENTO IN TUTTO MAIUSCOLO]
 
-    [Nome Location estratta dal file in formato normale] – [Città] ([Provincia])
+    [Nome della location estratta dal file in formato normale] – [Città in formato normale] ([Provincia in formato normale])
 
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città in formato normale], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
 
     Con: 
 
