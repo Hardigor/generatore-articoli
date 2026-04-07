@@ -51,6 +51,7 @@ def generate_content(file_path, file_extension):
     - Zero dettagli aggiuntivi e zero frasi di contorno.
     - DIVIETO ASSOLUTO: Non usare formule come "Non X, ma Y" o "Pubblicato nel...". 
     - DIVIETO ASSOLUTO MAIUSCOLE: Non inserire MAI parole in TUTTO MAIUSCOLO nel corpo del testo (né per l'articolo WP, né per i luoghi/città). Usa sempre il formato normale (iniziale maiuscola e resto minuscolo). L'UNICA eccezione consentita è il TITOLO dell'evento nella Parte 2 (Calendario).
+    - GESTIONE DATI MANCANTI (IMPORTANTISSIMO): Se un'informazione richiesta dallo schema (es. via esatta, nomi degli artisti sotto "Con:", o telefono/email sotto "Info:") NON È PRESENTE nel file che stai analizzando, NON INVENTARLA ASSOLUTAMENTE. In questi casi, ELIMINA semplicemente dal tuo output le righe o le sezioni relative ai dati mancanti (es. se non ci sono gli artisti, ometti del tutto la parola "Con:" e la lista vuota).
 
     IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI, MANTENENDO AL MILLIMETRO GLI SPAZI E GLI "A CAPO" DEI SEGUENTI SCHEMI, MA USANDO I DATI ESTRATTI DAL FILE:
 
@@ -63,17 +64,18 @@ def generate_content(file_path, file_extension):
 
     [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città estratta dal file in formato normale], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
 
+    (INSERISCI LA SEZIONE "Con:" SOLO SE GLI ARTISTI SONO PRESENTI NEL FILE, ALTRIMENTI OMETTILA COMPLETAMENTE)
     Con:
 
     [Nome Artista/Relatore 1 dal file] – [Ruolo/Strumento]
     [Nome Artista/Relatore 2 dal file] – [Ruolo/Strumento]
-    (inserisci qui tutti i partecipanti trovati nel file)
 
-    Info: [Telefono dal file] – [Email dal file]
+    (INSERISCI LA RIGA INFO SOLO SE CI SONO TELEFONI/EMAIL/LINK NEL FILE)
+    Info: [Contatti estratti dal file]
 
 
     PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
-    Genera la formattazione per il calendario rispettando i maiuscoli/minuscoli e le interruzioni di riga esatte di questo schema (Attenzione: la riga "Info" è attaccata all'ultimo nome). USA I DATI DEL FILE.
+    Genera la formattazione per il calendario rispettando i maiuscoli/minuscoli e le interruzioni di riga esatte di questo schema (Attenzione: la riga "Info", se presente, è attaccata all'ultimo nome). USA I DATI DEL FILE E OMETTI LE RIGHE PER I DATI MANCANTI COME NELLA PARTE 1.
 
     [Data estratta in formato GG/MM/AAAA] – [TITOLO DELL'EVENTO IN TUTTO MAIUSCOLO]
 
@@ -81,11 +83,13 @@ def generate_content(file_path, file_extension):
 
     [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città in formato normale], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
 
+    (INSERISCI LA SEZIONE "Con:" SOLO SE PRESENTE)
     Con: 
 
     [Nome Artista/Relatore 1 dal file] – [Ruolo/Strumento]
     [Nome Artista/Relatore 2 dal file] – [Ruolo/Strumento]
-    Info: [Telefono dal file] – [Email dal file]
+    (INSERISCI LA RIGA INFO ATTACCATA ALL'ULTIMO NOME SOLO SE CI SONO CONTATTI NEL FILE)
+    Info: [Contatti estratti dal file]
     """
 
     content_parts = [system_prompt]
