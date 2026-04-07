@@ -50,75 +50,43 @@ def generate_content(file_path, file_extension):
     - NON INVENTARE NULLA. Zero dettagli aggiuntivi e zero frasi di contorno.
     - DIVIETO ASSOLUTO: Non usare formule come "Non X, ma Y" o "Pubblicato nel...". Nessuna creatività testuale, usa solo i fatti.
 
-    IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI:
+    IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI, SEGUENDO AL MILLIMETRO I SEGUENTI SCHEMI:
 
     PARTE 1: ARTICOLO WORDPRESS
-    Proponi prima 3 titoli AIOSEO in formato normale (non tutto maiuscolo). Dopodiché, genera l'articolo rispettando RIGOROSAMENTE questa struttura e questi a capo:
+    Proponi prima 3 titoli AIOSEO in formato normale (non tutto maiuscolo). Dopodiché, genera l'articolo rispettando RIGOROSAMENTE questa formattazione, inclusi gli spazi e gli a capo esatti:
 
-    [Titolo Evento in formato normale]
+    --- ESEMPIO REALE DA COPIARE PER LA PARTE 1 ---
+    Racconti d'Autunno: Serata con l'autore Marco Rossi
 
-    [NOME LOCATION IN TUTTO MAIUSCOLO] – [CITTÀ IN TUTTO MAIUSCOLO] ([PROVINCIA IN TUTTO MAIUSCOLO])
+    LIBRERIA "IL SEGNALIBRO" – MILANO (MI)
 
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]". (Se ci sono informazioni aggiuntive sull'evento riportale testualmente qui, senza inventare nulla)
+    Giovedì 26 Ottobre alle ore 18:30 presso Libreria "Il Segnalibro", Via Roma 10, Milano, si terrà l'appuntamento dal titolo "Racconti d'Autunno: Serata con l'autore Marco Rossi".
 
     Con:
 
-    [Nome Artista] – [Ruolo/Strumento]
-    [Nome Artista] – [Ruolo/Strumento]
+    Marco Rossi – Autore 
+    Laura Bianchi – Moderatrice
 
-    Info: [Telefono] – [Email]
+    Info: 02 12345678 – info@ilsegnalibro.it
+    --- FINE ESEMPIO PARTE 1 ---
 
 
     PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
-    Per il calendario devi formattare il testo copiando AL MILLIMETRO gli spazi, i maiuscoli/minuscoli e le interruzioni di riga di questi esempi reali. Scegli il modello più adatto al testo in input (se è un evento singolo usa il Modello A, se è un raggruppamento per mese usa il Modello B, se ci sono relatori o presentatori usa il Modello C).
+    Per il calendario devi formattare il testo copiando AL MILLIMETRO gli spazi, i maiuscoli/minuscoli e le interruzioni di riga di questo esempio reale. Fai molta attenzione a come "Info:" è attaccato all'ultima riga dei nomi.
 
-    --- INIZIO MODELLO A (Evento Singolo Standard) ---
-    05/03/2026 – FINALMENTE SCEGLIERAI – FABER, BOCCA DI ROSA E LE ALTRE…
-    Patrocinio Fondazione Fabrizio De André
+    --- ESEMPIO REALE DA COPIARE PER LA PARTE 2 ---
+    26/10/2023 – RACCONTI D'AUTUNNO: SERATA CON L'AUTORE MARCO ROSSI
 
-    Sala Ariston – Camposanto (MO)
-    Giovedì 5 marzo alle ore 20:45 presso la Sala Ariston di Via Roma 6 a Camposanto, si terrà l’appuntamento dal titolo “Finalmente sceglierai – Faber, Bocca di Rosa e le altre…”
+    Libreria "Il Segnalibro" – Milano (MI)
 
-    Con:
-    Germano Salsi – chitarra e voce
-    Michaela Bilkova Bozzato – violino
-    Francesca Cavazzuti – testi e voce narrante
+    Giovedì 26 Ottobre alle ore 18:30 presso Libreria "Il Segnalibro", Via Roma 10, Milano, si terrà l'appuntamento dal titolo "Racconti d'Autunno: Serata con l'autore Marco Rossi".
 
-    Info: 3485503202 – info@cordecordiali.it
-    --- FINE MODELLO A ---
+    Con: 
 
-    --- INIZIO MODELLO B (Raggruppamento Eventi per Mese) ---
-    MARZO 2026 – FABER EXPERIENCE IN CONCERTO
-
-    Varie località
-
-    Questi gli appuntamenti di marzo per Faber Experience, Tributo a Fabrizio De André:
-
-    8 marzo – Teatro Villoresi di Monza
-    26 marzo – Teatro Ambra di Poggio a Caiano (PO)
-    27 marzo – Teatro Nuovo di Pisa
-    28 marzo – Teatro Michelangelo di Modena
-
-    Info: Info: faberisback.it
-    --- FINE MODELLO B ---
-
-    --- INIZIO MODELLO C (Evento con Interpreti e Presentatori) ---
-    06/03/2026 – NON PER GRAZIA RICEVUTA – LE VOCI DELLE DONNE PER FABER TRA FATICA, LOTTE, RESISTENZA E DIGNITÁ
-    Patrocinio Fondazione Fabrizio De André
-
-    Savona
-    Venerdì 6 marzo alle ore 16:00 presso la Sala della Sibilla (Fortezza del Priamar) a Savona, si terrà l’appuntamento dal titolo “Non per grazia ricevuta – Le voci delle donne per Faber tra fatica, lotte, resistenza e dignità”.
-
-    Interpretazioni musicali di:
-    Chiara Effe e Federico Sirianni
-    cantautori e interpreti della scuola genovese in dialogo con l’opera di Fabrizio De André
-
-    Presenta:
-
-    Giulia Stella, segreteria Spi di Savona
-    Giuliana Parodi, segretaria regionale Spi Cgil
-    Andrea Pasa, segretario generale Camera del Lavoro di Savona
-    --- FINE MODELLO C ---
+    Marco Rossi – Autore 
+    Laura Bianchi – Moderatrice
+    Info: 02 12345678 – info@ilsegnalibro.it
+    --- FINE ESEMPIO PARTE 2 ---
     """
 
     content_parts = [system_prompt]
