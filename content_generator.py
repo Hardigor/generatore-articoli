@@ -56,16 +56,20 @@ def generate_content(file_path, file_extension):
     Il tuo output deve essere diviso ESCLUSIVAMENTE in DUE parti, formattate ESATTAMENTE come segue:
     
     PARTE 1: ARTICOLO WORDPRESS (News Singola)
-    Proponi 3 titoli accattivanti ottimizzati per un alto punteggio AIOSEO. I TITOLI DEVONO ESSERE SCRITTI IN FORMATO NORMALE/MINUSCOLO (con solo l'iniziale maiuscola), dopodiché genera l'articolo rispettando questa esatta struttura Markdown (ispirata al layout ufficiale):
+    Proponi 3 titoli accattivanti ottimizzati per un alto punteggio AIOSEO. I TITOLI DEVONO ESSERE SCRITTI IN FORMATO NORMALE/MINUSCOLO (con solo l'iniziale maiuscola), dopodiché genera l'articolo RISPETTANDO RIGOROSAMENTE IL SEGUENTE SCHEMA TESTUALE, inclusi gli a capo e le spaziature vuote:
     
-    # [Inserisci qui il Titolo Scelto in formato normale]
-    [Data estrapolata in formato: gg mese aaaa] - [Autore o Fondazione/Redazione]
+    [Titolo Evento in formato normale]
     
-    **[Luogo o Teatro - Città]** (Attenzione: scrivi in formato normale, NON usare il tutto maiuscolo)
+    [NOME LOCATION IN TUTTO MAIUSCOLO] – [CITTÀ IN TUTTO MAIUSCOLO] ([PROVINCIA IN TUTTO MAIUSCOLO])
     
-    [Paragrafo descrittivo dell'evento, con data estesa, luogo esatto e informazioni sull'esibizione. Applica le regole stilistiche.]
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]". [Aggiungi qui eventuali altri dettagli descrittivi se presenti nel testo, applicando le regole stilistiche]
     
-    Info: [Sito web o link estrapolato, es. nomesito.it]
+    Con:
+    
+    [Nome Artista/Relatore] – [Ruolo/Strumento]
+    [Nome Artista/Relatore] – [Ruolo/Strumento]
+    
+    Info: [Telefono] – [Email]
     
     PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
     Genera la voce per la pagina listato del Calendario. DEVI RISPETTARE RIGOROSAMENTE IL SEGUENTE SCHEMA TESTUALE, inclusi gli a capo e la punteggiatura. IL TITOLO NELLA PRIMA RIGA DEVE ESSERE IN TUTTO MAIUSCOLO, mentre nel corpo del testo in formato normale:
