@@ -52,6 +52,7 @@ def generate_content(file_path, file_extension):
     - DIVIETO ASSOLUTO: Non usare formule come "Non X, ma Y" o "Pubblicato nel...". 
     - DIVIETO ASSOLUTO MAIUSCOLE: Non inserire MAI parole in TUTTO MAIUSCOLO nel corpo del testo (né per l'articolo WP, né per i luoghi/città). Usa sempre il formato normale (iniziale maiuscola e resto minuscolo). L'UNICA eccezione consentita è il TITOLO dell'evento nella Parte 2 (Calendario).
     - GESTIONE DATI MANCANTI (IMPORTANTISSIMO): Se un'informazione richiesta dallo schema (es. via esatta, nomi degli artisti sotto "Con:", o telefono/email sotto "Info:") NON È PRESENTE nel file che stai analizzando, NON INVENTARLA ASSOLUTAMENTE. In questi casi, ELIMINA semplicemente dal tuo output le righe o le sezioni relative ai dati mancanti (es. se non ci sono gli artisti, ometti del tutto la parola "Con:" e la lista vuota).
+    - DIVIETO DI CONVERSAZIONE: Sei un programma script automatico. Non comportarti da chatbot. Non rispondere MAI "Sono pronto", non salutare e non aggiungere commenti. Restituisci ESCLUSIVAMENTE il testo degli schemi compilati.
 
     IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI, MANTENENDO AL MILLIMETRO GLI SPAZI E GLI "A CAPO" DEI SEGUENTI SCHEMI, MA USANDO I DATI ESTRATTI DAL FILE:
 
@@ -93,23 +94,26 @@ def generate_content(file_path, file_extension):
     """
 
     content_parts = [system_prompt]
+    
+    comando_finale = "\n\nESEGUI ORA L'ESTRAZIONE DEI DATI DAL MATERIALE FORNITO E GENERA GLI SCHEMI PARTE 1 E PARTE 2. DIVIETO ASSOLUTO DI RISPONDERE CON FRASI DI CONTORNO COME 'SONO PRONTO' O 'ATTENDO MATERIALE'."
 
     # Gestione in base al tipo di file
     if file_extension == '.pdf':
         print(f"Estrazione testo da PDF: {file_path}")
         text = extract_text_from_pdf(file_path)
-        content_parts.append(f"Materiale di base:\n{text}")
+        content_parts.append(f"--- INIZIO MATERIALE ---\n{text}\n--- FINE MATERIALE ---" + comando_finale)
         
     elif file_extension in ['.doc', '.docx']:
         print(f"Estrazione testo da Word: {file_path}")
         text = extract_text_from_docx(file_path)
-        content_parts.append(f"Materiale di base:\n{text}")
+        content_parts.append(f"--- INIZIO MATERIALE ---\n{text}\n--- FINE MATERIALE ---" + comando_finale)
         
     elif file_extension in ['.jpg', '.jpeg', '.png']:
         print(f"Analisi immagine: {file_path}")
         image = Image.open(file_path)
-        content_parts.append("Materiale di base (Immagine allegata):")
+        content_parts.append("--- INIZIO MATERIALE (IMMAGINE ALLEGATA) ---")
         content_parts.append(image)
+        content_parts.append("--- FINE MATERIALE ---" + comando_finale)
     else:
         print(f"Formato non supportato: {file_extension}")
         return None
