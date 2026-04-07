@@ -44,49 +44,47 @@ def generate_content(file_path, file_extension):
     
     # Prompt di sistema basato sulle tue rigorose linee guida editoriali
     system_prompt = """
-    Sei un estrattore di dati e formattatore automatico. Il tuo unico scopo è prendere le informazioni dal file fornito e inserirle in due schemi RIGIDI copiando pedissequamente gli ESEMPI REALI che ti verranno forniti qui sotto.
+    Sei un estrattore di dati e formattatore automatico. Il tuo compito è LEGGERE IL FILE FORNITO, estrarre le informazioni reali dell'evento (date, luoghi, nomi, contatti) e INSERIRLE NEI DUE SCHEMI RIGIDI riportati qui sotto.
 
     REGOLA FONDAMENTALE SUI CONTENUTI:
-    - NON INVENTARE NULLA. Zero dettagli aggiuntivi e zero frasi di contorno.
-    - DIVIETO ASSOLUTO: Non usare formule come "Non X, ma Y" o "Pubblicato nel...". Nessuna creatività testuale, usa solo i fatti.
+    - ESTRAI I DATI REALI DAL FILE. Non inventare nulla, usa solo i fatti.
+    - Zero dettagli aggiuntivi e zero frasi di contorno.
+    - DIVIETO ASSOLUTO: Non usare formule come "Non X, ma Y" o "Pubblicato nel...". 
 
-    IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI, SEGUENDO AL MILLIMETRO I SEGUENTI SCHEMI:
+    IL TUO OUTPUT DEVE ESSERE DIVISO ESCLUSIVAMENTE IN DUE PARTI, MANTENENDO AL MILLIMETRO GLI SPAZI E GLI "A CAPO" DEI SEGUENTI SCHEMI, MA USANDO I DATI ESTRATTI DAL FILE:
 
     PARTE 1: ARTICOLO WORDPRESS
-    Proponi prima 3 titoli AIOSEO in formato normale (non tutto maiuscolo). Dopodiché, genera l'articolo rispettando RIGOROSAMENTE questa formattazione, inclusi gli spazi e gli a capo esatti:
+    Proponi prima 3 titoli AIOSEO in formato normale (non tutto maiuscolo). Dopodiché, genera l'articolo rispettando RIGOROSAMENTE questa formattazione:
 
-    --- ESEMPIO REALE DA COPIARE PER LA PARTE 1 ---
-    Racconti d'Autunno: Serata con l'autore Marco Rossi
+    [Titolo dell'evento estratto dal file in formato normale]
 
-    LIBRERIA "IL SEGNALIBRO" – MILANO (MI)
+    [NOME DELLA LOCATION ESTRATTA DAL FILE IN TUTTO MAIUSCOLO] – [CITTÀ IN TUTTO MAIUSCOLO] ([PROVINCIA IN MAIUSCOLO])
 
-    Giovedì 26 Ottobre alle ore 18:30 presso Libreria "Il Segnalibro", Via Roma 10, Milano, si terrà l'appuntamento dal titolo "Racconti d'Autunno: Serata con l'autore Marco Rossi".
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città estratta dal file], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
 
     Con:
 
-    Marco Rossi – Autore 
-    Laura Bianchi – Moderatrice
+    [Nome Artista/Relatore 1 dal file] – [Ruolo/Strumento]
+    [Nome Artista/Relatore 2 dal file] – [Ruolo/Strumento]
+    (inserisci qui tutti i partecipanti trovati nel file)
 
-    Info: 02 12345678 – info@ilsegnalibro.it
-    --- FINE ESEMPIO PARTE 1 ---
+    Info: [Telefono dal file] – [Email dal file]
 
 
     PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
-    Per il calendario devi formattare il testo copiando AL MILLIMETRO gli spazi, i maiuscoli/minuscoli e le interruzioni di riga di questo esempio reale. Fai molta attenzione a come "Info:" è attaccato all'ultima riga dei nomi.
+    Genera la formattazione per il calendario rispettando i maiuscoli/minuscoli e le interruzioni di riga esatte di questo schema (Attenzione: la riga "Info" è attaccata all'ultimo nome). USA I DATI DEL FILE.
 
-    --- ESEMPIO REALE DA COPIARE PER LA PARTE 2 ---
-    26/10/2023 – RACCONTI D'AUTUNNO: SERATA CON L'AUTORE MARCO ROSSI
+    [Data estratta in formato GG/MM/AAAA] – [TITOLO DELL'EVENTO IN TUTTO MAIUSCOLO]
 
-    Libreria "Il Segnalibro" – Milano (MI)
+    [Nome Location estratta dal file in formato normale] – [Città] ([Provincia])
 
-    Giovedì 26 Ottobre alle ore 18:30 presso Libreria "Il Segnalibro", Via Roma 10, Milano, si terrà l'appuntamento dal titolo "Racconti d'Autunno: Serata con l'autore Marco Rossi".
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
 
     Con: 
 
-    Marco Rossi – Autore 
-    Laura Bianchi – Moderatrice
-    Info: 02 12345678 – info@ilsegnalibro.it
-    --- FINE ESEMPIO PARTE 2 ---
+    [Nome Artista/Relatore 1 dal file] – [Ruolo/Strumento]
+    [Nome Artista/Relatore 2 dal file] – [Ruolo/Strumento]
+    Info: [Telefono dal file] – [Email dal file]
     """
 
     content_parts = [system_prompt]
