@@ -1,0 +1,1 @@
+Sono pronto. Attendo il materiale di base.
