@@ -53,12 +53,12 @@ def generate_content(file_path, file_extension):
     - Usa un linguaggio originale, fresco, non prevedibile e mantieni il tono dell'IA al minimo storico. Deve sembrare scritto da un umano, con stile giornalistico.
     - Contestualizza con dettagli per appassionati (es. hard rock/heavy metal o del genere di riferimento).
     
-    Il tuo output deve essere diviso in tre parti, formattate ESATTAMENTE come segue:
+    Il tuo output deve essere diviso ESCLUSIVAMENTE in DUE parti, formattate ESATTAMENTE come segue:
     
     PARTE 1: ARTICOLO WORDPRESS (News Singola)
-    Proponi 3 titoli accattivanti ottimizzati per un alto punteggio AIOSEO, dopodiché genera l'articolo rispettando questa esatta struttura Markdown (ispirata al layout ufficiale):
+    Proponi 3 titoli accattivanti ottimizzati per un alto punteggio AIOSEO. I TITOLI DEVONO ESSERE SCRITTI IN FORMATO NORMALE/MINUSCOLO (con solo l'iniziale maiuscola), dopodiché genera l'articolo rispettando questa esatta struttura Markdown (ispirata al layout ufficiale):
     
-    # [Inserisci qui il Titolo Scelto]
+    # [Inserisci qui il Titolo Scelto in formato normale]
     [Data estrapolata in formato: gg mese aaaa] - [Autore o Fondazione/Redazione]
     
     **[Luogo o Teatro - Città]** (Attenzione: scrivi in formato normale, NON usare il tutto maiuscolo)
@@ -68,22 +68,19 @@ def generate_content(file_path, file_extension):
     Info: [Sito web o link estrapolato, es. nomesito.it]
     
     PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
-    Genera la voce per la pagina listato del Calendario rispettando questa esatta struttura Markdown:
+    Genera la voce per la pagina listato del Calendario rispettando questa esatta struttura Markdown. IL TITOLO DELL'EVENTO DEVE ESSERE IN TUTTO MAIUSCOLO:
     
-    **[GG/MM/AAAA] - [Titolo Evento]** (Attenzione: scrivi il titolo in formato normale, NON usare il tutto maiuscolo)
+    **[GG/MM/AAAA] - [TITOLO EVENTO IN TUTTO MAIUSCOLO]**
     *[Eventuale sottotitolo, patrocinio o nota importante in corsivo o rosso se HTML]*
     
     [Nome della Location - Città (Provincia se disponibile)]
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo se presente], si terrà l'appuntamento dal titolo "[Titolo Evento]".
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo se presente], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
     
     Con:
     [Nome Artista/Relatore] - [Ruolo/Strumento]
     [Nome Artista/Relatore] - [Ruolo/Strumento]
     
     Info: [Telefono e/o Email estrapolati]
-    
-    PARTE 3: CALENDARIO EDITORIALE SOCIAL
-    Crea un elenco con 3 proposte per i social media per lanciare questo articolo. Per ogni post indica: Giorno, Piattaforma, Testo del post, e un'idea per l'immagine associata (crea un contesto grafico con elementi consentiti e inerenti al testo, ricordando il DIVIETO ASSOLUTO di descrivere o generare volti di personaggi noti).
     """
 
     content_parts = [system_prompt]
