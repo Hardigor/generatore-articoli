@@ -68,19 +68,19 @@ def generate_content(file_path, file_extension):
     Info: [Sito web o link estrapolato, es. nomesito.it]
     
     PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
-    Genera la voce per la pagina listato del Calendario rispettando questa esatta struttura Markdown. IL TITOLO DELL'EVENTO DEVE ESSERE IN TUTTO MAIUSCOLO:
+    Genera la voce per la pagina listato del Calendario. DEVI RISPETTARE RIGOROSAMENTE IL SEGUENTE SCHEMA TESTUALE, inclusi gli a capo e la punteggiatura. IL TITOLO NELLA PRIMA RIGA DEVE ESSERE IN TUTTO MAIUSCOLO, mentre nel corpo del testo in formato normale:
     
-    **[GG/MM/AAAA] - [TITOLO EVENTO IN TUTTO MAIUSCOLO]**
-    *[Eventuale sottotitolo, patrocinio o nota importante in corsivo o rosso se HTML]*
+    [GG/MM/AAAA] – [TITOLO EVENTO IN TUTTO MAIUSCOLO]
+    [Eventuale dicitura di Patrocinio o Sottotitolo, es. Patrocinio Fondazione Fabrizio De André]
     
-    [Nome della Location - Città (Provincia se disponibile)]
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo se presente], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]".
+    [Nome Location] – [Città] ([Provincia])
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]"
     
     Con:
-    [Nome Artista/Relatore] - [Ruolo/Strumento]
-    [Nome Artista/Relatore] - [Ruolo/Strumento]
+    [Nome Artista/Relatore] – [Ruolo/Strumento]
+    [Nome Artista/Relatore] – [Ruolo/Strumento]
     
-    Info: [Telefono e/o Email estrapolati]
+    Info: [Telefono] – [Email]
     """
 
     content_parts = [system_prompt]
