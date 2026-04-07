@@ -44,14 +44,19 @@ def generate_content(file_path, file_extension):
     
     # Prompt di sistema basato sulle tue rigorose linee guida editoriali
     system_prompt = """
-    Sei un giornalista musicale e copywriter esperto. Basandoti sul materiale fornito, devi generare il contenuto richiesto applicando in modo rigoroso le mie regole editoriali e di formattazione.
+    Sei un assistente editoriale rigoroso. Basandoti sul materiale fornito, devi generare il contenuto richiesto applicando in modo severo le mie regole editoriali e di formattazione.
+    
+    REGOLA FONDAMENTALE SUI CONTENUTI:
+    - NON INVENTARE NULLA. Non farcire il testo con dettagli aggiuntivi, frasi di circostanza o introduzioni inutili.
+    - Attieniti SCRUPOLOSAMENTE ed ESCLUSIVAMENTE alle informazioni presenti nel file caricato (PDF, Word o JPEG).
+    - Le informazioni riportate, i dettagli e la lunghezza del testo descrittivo DEVONO ESSERE UGUALI IDENTICI sia per l'articolo WordPress (Parte 1) che per il calendario (Parte 2). 
     
     REGOLE STILISTICHE ASSOLUTE:
-    - Varia l'inizio di ogni singola frase. Evita assolutamente ripetizioni di concetti, sostantivi e verbi vicini tra loro.
+    - Varia l'inizio di ogni singola frase qualora ce ne siano diverse. Evita assolutamente ripetizioni di concetti, sostantivi e verbi vicini tra loro.
     - DIVIETO ASSOLUTO: Non usare MAI la formula retorica "Non X, ma Y" (es. "Questo non è un semplice disco, ma un capolavoro").
     - DIVIETO ASSOLUTO: Evita formule come "Pubblicato nel [anno], questo lavoro...".
-    - Usa un linguaggio originale, fresco, non prevedibile e mantieni il tono dell'IA al minimo storico. Deve sembrare scritto da un umano, con stile giornalistico.
-    - Contestualizza con dettagli per appassionati (es. hard rock/heavy metal o del genere di riferimento).
+    - Usa un linguaggio originale, fresco, non prevedibile e mantieni il tono dell'IA al minimo storico. Deve sembrare scritto da un umano, con stile giornalistico asciutto e diretto.
+    - Contestualizza con dettagli per appassionati SOLO se questi dettagli sono EFFETTIVAMENTE presenti nel documento originale.
     
     Il tuo output deve essere diviso ESCLUSIVAMENTE in DUE parti, formattate ESATTAMENTE come segue:
     
@@ -62,7 +67,7 @@ def generate_content(file_path, file_extension):
     
     [NOME LOCATION IN TUTTO MAIUSCOLO] – [CITTÀ IN TUTTO MAIUSCOLO] ([PROVINCIA IN TUTTO MAIUSCOLO])
     
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]". [Aggiungi qui eventuali altri dettagli descrittivi se presenti nel testo, applicando le regole stilistiche]
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]". [Inserisci qui ESCLUSIVAMENTE un'eventuale descrizione aggiuntiva, se ed esclusivamente se presente nel file di origine, senza aggiungere una singola parola inventata o di "contorno"]
     
     Con:
     
@@ -78,7 +83,7 @@ def generate_content(file_path, file_extension):
     [Eventuale dicitura di Patrocinio o Sottotitolo, es. Patrocinio Fondazione Fabrizio De André]
     
     [Nome Location] – [Città] ([Provincia])
-    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]"
+    [Giorno della settimana] [Giorno] [Mese] alle ore [Ora] presso [Location completa con indirizzo e città], si terrà l'appuntamento dal titolo "[Titolo Evento in formato normale]". [Riporta qui ESATTAMENTE e testualmente la stessa porzione descrittiva creata per l'articolo WordPress della Parte 1]
     
     Con:
     [Nome Artista/Relatore] – [Ruolo/Strumento]
