@@ -21,16 +21,17 @@ Sei un estrattore di dati. Leggi il file fornito e compila i due schemi seguenti
 NON aggiungere commenti. NON dire 'Ecco i risultati'. Restituisci SOLO gli schemi esatti qui sotto.
 
 REGOLE TASSATIVE:
-1. Nomi, Titoli e Luoghi nella Parte 1 DEVONO essere in formato normale (es: Teatro Ariston). NO TUTTO MAIUSCOLO.
+1. Nomi e Luoghi nella Parte 1 DEVONO essere in formato normale (es: Teatro Ariston). NO TUTTO MAIUSCOLO.
 2. SOLO il Titolo Evento della Parte 2 (dopo la data) deve essere in TUTTO MAIUSCOLO.
 3. Se mancano gli artisti/musicisti nel testo, NON inventarli e NON inserire la parola "Con:". Elimina semplicemente quella sezione.
 4. Sostituisci [GG/MM/AAAA] con la data corretta (es. 28/03/2026), se l'anno non è specificato deduci quello corrente.
+5. I link web e gli indirizzi email devono ESSERE SEMPRE IN MINUSCOLO (es. www.sito.it), anche se nell'originale appaiono in maiuscolo.
 
-Copia testualmente questa formattazione, rispettando rigorosamente le righe vuote:
+Copia testualmente questa formattazione Markdown, rispettando rigorosamente le righe vuote e i grassetti (**testo**):
 
-ARTICOLO WORDPRESS
+**ARTICOLO WORDPRESS**
 
-[Titolo Evento in formato normale]
+**[Titolo Evento in formato normale]**
 
 [Nome Location] – [Città] ([Provincia])
 
@@ -38,12 +39,12 @@ ARTICOLO WORDPRESS
 
 (INSERISCI LA PAROLA "Con:" E L'ELENCO DEGLI ARTISTI QUI SOLO SE SONO PRESENTI NEL FILE, ALTRIMENTI OMETTI QUESTE RIGHE)
 
-Info e biglietti: [Link o contatti estratti]
+Info e biglietti: [Link o email rigorosamente in minuscolo]
 
 
-ARTICOLO CALENDARIO MANIFESTAZIONI
+**ARTICOLO CALENDARIO MANIFESTAZIONI**
 
-[GG/MM/AAAA] – [TITOLO EVENTO IN TUTTO MAIUSCOLO]
+**[GG/MM/AAAA] – [TITOLO EVENTO IN TUTTO MAIUSCOLO]**
 (INSERISCI QUI EVENTUALE PATROCINIO SE PRESENTE, ALTRIMENTI OMETTI)
 
 [Nome Location] – [Città] ([Provincia]) 
@@ -52,7 +53,7 @@ ARTICOLO CALENDARIO MANIFESTAZIONI
 
 (INSERISCI LA PAROLA "Con:" E L'ELENCO DEGLI ARTISTI QUI SOLO SE SONO PRESENTI NEL FILE, ALTRIMENTI OMETTI QUESTE RIGHE)
 
-Info e biglietti: [Link o contatti estratti]
+Info e biglietti: [Link o email rigorosamente in minuscolo]
 """
 
 model = genai.GenerativeModel(
