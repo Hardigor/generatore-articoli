@@ -1,4 +1,5 @@
 import os
+import sys
 import google.generativeai as genai
 import docx
 import PyPDF2
@@ -8,6 +9,7 @@ from PIL import Image
 API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 if not API_KEY:
     print("❌ ERRORE CRITICO: La chiave GEMINI_API_KEY non è stata trovata nei Secrets!")
+    sys.exit(1) # Ferma l'automazione con pallino rosso
 else:
     print("✅ Chiave API trovata, procedo alla configurazione.")
     genai.configure(api_key=API_KEY)
@@ -60,7 +62,6 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 def generate(file_path, ext):
     print(f"⏳ Inizio elaborazione del file: {file_path}")
     
-    # È cruciale fornire SEMPRE un prompt di testo insieme al file/immagine
     parts = ["Estrai i dati da questo documento/immagine e compila ESATTAMENTE i due schemi richiesti."]
     
     try:
@@ -92,6 +93,11 @@ def generate(file_path, ext):
 
         print("🤖 Invio richiesta a Gemini...")
         res = model.generate_content(parts)
+        
+        if not res.candidates:
+            print("❌ ERRORE: Gemini ha bloccato la risposta o non ha trovato dati validi.")
+            return None
+            
         print("✅ Risposta ricevuta da Gemini!")
         return res.text
         
@@ -101,12 +107,20 @@ def generate(file_path, ext):
 
 def main():
     print("🚀 Avvio dello script principale...")
+    
+    if not os.path.exists(INPUT_DIR):
+        print("❌ ERRORE CRITICO: La cartella 'input' non esiste.")
+        sys.exit(1)
+        
     files = [f for f in os.listdir(INPUT_DIR) if not f.startswith('.')]
     
     if not files:
-        print("📁 Nessun file trovato nella cartella 'input'.")
-        return
+        print("❌ ERRORE CRITICO: Nessun file trovato nella cartella 'input'.")
+        print("💡 ATTENZIONE: Assicurati di aver caricato l'immagine *DENTRO* la cartella 'input' e non nella schermata principale del progetto!")
+        sys.exit(1)
 
+    successo_totale = False
+    
     for f in files:
         path = os.path.join(INPUT_DIR, f)
         ext = os.path.splitext(f)[1].lower()
@@ -117,10 +131,15 @@ def main():
             with open(out_file, "w", encoding="utf-8") as out:
                 out.write(output.strip())
             print(f"💾 File salvato con successo: {out_file}")
+            successo_totale = True
         else:
             print(f"⚠️ Impossibile generare contenuto per {f}")
             
-    print("🏁 Elaborazione terminata.")
+    if non successo_totale:
+        print("❌ ERRORE CRITICO: Nessun file è stato generato con successo. Processo fallito.")
+        sys.exit(1)
+            
+    print("🏁 Elaborazione terminata con successo.")
 
 if __name__ == "__main__":
     main()
