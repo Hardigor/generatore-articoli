@@ -4,54 +4,29 @@ import docx
 import PyPDF2
 from PIL import Image
 
-# Configurazione API
-API_KEY = os.environ.get("GEMINI_API_KEY", "")
-genai.configure(api_key=API_KEY)
+# 1. Recupero API KEY
+API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+if not API_KEY:
+    print("❌ ERRORE CRITICO: La GEMINI_API_KEY non è configurata!")
+else:
+    genai.configure(api_key=API_KEY)
 
-# Configurazione del modello
+# 2. Istruzioni di Sistema (Il "Cervello" del Bot)
 system_instruction = """
-Sei un assistente editoriale automatizzato. Il tuo compito è estrarre i dati dal materiale fornito (testo o immagine) e inserirli in due schemi rigidi. 
+Sei un assistente editoriale automatico. Il tuo compito è estrarre i dati dal materiale fornito e inserirli in due schemi rigidi. 
 
-REGOLE DI COMPORTAMENTO:
-1. NON CONVERSARE: Restituisci SOLO i due schemi. Nessun commento iniziale o finale.
-2. NON INVENTARE: Usa solo i dati presenti. Se mancano artisti o contatti, ometti quelle righe.
-3. MAIUSCOLE/MINUSCOLE: 
-   - Corpo del testo e luoghi: formato normale (Es: Teatro Ariston - Sanremo).
+REGOLE TASSATIVE:
+1. NON CONVERSARE: Restituisci SOLO i due schemi. Non dire "Ecco i file" o "Sono pronto".
+2. NON INVENTARE: Usa solo i dati presenti. Se mancano artisti o contatti, elimina quelle righe.
+3. FORMATTAZIONE: 
+   - Niente TUTTO MAIUSCOLO nel corpo del testo o nei luoghi.
    - SOLO il titolo della PARTE 2 (Calendario) deve essere in TUTTO MAIUSCOLO.
-4. STILE: Giornalistico asciutto. Identico contenuto descrittivo per entrambi gli schemi.
-
-STRUTTURA OUTPUT:
-
-PARTE 1: ARTICOLO WORDPRESS
-(Inizia con 3 titoli AIOSEO in formato normale)
-
-[Titolo Evento]
-
-[Nome Location] – [Città] ([Provincia])
-
-[Paragrafo descrittivo: Giorno della settimana, Giorno, Mese, ore... presso...]
-
-Con:
-
-[Nome Artista] – [Strumento]
-
-Info: [Contatti]
-
-
-PARTE 2: VOCE PER IL CALENDARIO MANIFESTAZIONI
-[GG/MM/AAAA] – [TITOLO EVENTO IN MAIUSCOLO]
-[Sottotitolo o Patrocinio se presente]
-
-[Nome Location] – [Città] ([Provincia])
-[Paragrafo descrittivo identico alla Parte 1]
-
-Con: 
-[Nome Artista] – [Strumento]
-Info: [Contatti]
+4. SCHEMA ARTICOLO WP: Titolo normale, Luogo normale, paragrafo descrittivo asciutto, lista "Con:" (se presente), "Info:".
+5. SCHEMA CALENDARIO: [Data] - [TITOLO MAIUSCOLO], Luogo normale, stesso paragrafo dell'articolo, "Con:" e "Info:" attaccati.
 """
 
 model = genai.GenerativeModel(
-    model_name='gemini-2.5-flash',
+    model_name='gemini-2.5-flash-preview-09-2025',
     system_instruction=system_instruction
 )
 
@@ -60,60 +35,47 @@ OUTPUT_DIR = "output"
 os.makedirs(INPUT_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-def extract_text_from_pdf(pdf_path):
-    text = ""
-    try:
-        with open(pdf_path, 'rb') as file:
-            reader = PyPDF2.PdfReader(file)
-            for page in reader.pages:
-                extracted = page.extract_text()
-                if extracted: text += extracted + "\n"
-    except Exception as e: print(f"Errore PDF: {e}")
-    return text
-
-def extract_text_from_docx(docx_path):
-    try:
-        doc = docx.Document(docx_path)
-        return "\n".join([para.text for para in doc.paragraphs])
-    except: return ""
-
-def generate_content(file_path, file_extension):
+def generate_content(file_path, ext):
+    print(f"🔍 Analisi file: {os.path.basename(file_path)}")
     content_parts = []
-    print(f"--- Elaborazione file: {os.path.basename(file_path)} ---")
     
-    if file_extension == '.pdf':
-        text = extract_text_from_pdf(file_path)
-        if not text.strip(): 
-            print("⚠️ Nessun testo trovato nel PDF. Provo come immagine...")
-            try:
-                # Se il PDF non ha testo, Gemini può analizzarlo come immagine se passiamo il file
-                # In questo ambiente semplificato, trattiamo solo testo estratto o immagini pure
-                return None
-            except: return None
-        content_parts.append(f"DATI DA ELABORARE:\n\n{text}")
-    elif file_extension in ['.doc', '.docx']:
-        text = extract_text_from_docx(file_path)
-        if not text.strip(): return None
-        content_parts.append(f"DATI DA ELABORARE:\n\n{text}")
-    elif file_extension in ['.jpg', '.jpeg', '.png']:
-        try:
-            image = Image.open(file_path)
-            content_parts.append("ANALIZZA QUESTA IMMAGINE ED ESTRAI I DATI PER GLI SCHEMI:")
-            content_parts.append(image)
-        except: return None
-    else: return None
-
     try:
+        if ext == '.pdf':
+            text = ""
+            with open(file_path, 'rb') as f:
+                reader = PyPDF2.PdfReader(f)
+                for page in reader.pages:
+                    text += page.extract_text() or ""
+            
+            if not text.strip():
+                print("⚠️ ATTENZIONE: Il PDF è un'immagine/scansione. Non posso leggere il testo interno.")
+                print("💡 Suggerimento: Carica la locandina come file .JPG o .PNG per risultati migliori.")
+                return None
+            content_parts.append(f"DATI ESTRATTI DAL PDF:\n{text}")
+            
+        elif ext in ['.jpg', '.jpeg', '.png']:
+            img = Image.open(file_path)
+            content_parts.append("Estrai i dati da questa immagine per i due schemi:")
+            content_parts.append(img)
+            
+        elif ext in ['.doc', '.docx']:
+            doc = docx.Document(file_path)
+            text = "\n".join([p.text for p in doc.paragraphs])
+            content_parts.append(f"DATI ESTRATTI DA WORD:\n{text}")
+        else: return None
+
+        print("🤖 Interrogazione Gemini in corso...")
         response = model.generate_content(content_parts)
         return response.text
+
     except Exception as e:
-        print(f"❌ Errore API: {e}")
+        print(f"❌ Errore: {e}")
         return None
 
 def main():
-    files = [f for f in os.listdir(INPUT_DIR) if os.path.isfile(os.path.join(INPUT_DIR, f)) and not f.startswith('.')]
+    files = [f for f in os.listdir(INPUT_DIR) if not f.startswith('.')]
     if not files:
-        print("Nessun file trovato in 'input'.")
+        print("📁 Cartella input vuota.")
         return
 
     for filename in files:
@@ -121,14 +83,12 @@ def main():
         ext = os.path.splitext(filename)[1].lower()
         result = generate_content(file_path, ext)
         
-        if result:
-            # Pulizia output da eventuali tag residui dell'AI
-            clean_result = result.replace("--- INIZIO MATERIALE ---", "").replace("--- FINE MATERIALE ---", "")
-            output_path = os.path.join(OUTPUT_DIR, f"{os.path.splitext(filename)[0]}_WP_Ready.md")
-            with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(clean_result.strip())
-            print(f"✅ Articolo salvato con successo: {output_path}")
+        if result and len(result.strip()) > 10:
+            out_name = f"{os.path.splitext(filename)[0]}_WP_Ready.md"
+            out_path = os.path.join(OUTPUT_DIR, out_name)
+            with open(out_path, 'w', encoding='utf-8') as f:
+                f.write(result.strip())
+            print(f"✅ Articolo generato: {out_name}")
 
 if __name__ == "__main__":
-    if API_KEY: main()
-    else: print("ERRORE: GEMINI_API_KEY non configurata.")
+    main()
