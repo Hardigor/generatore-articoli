@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import google.generativeai as genai
 import docx
 import PyPDF2
@@ -97,17 +98,39 @@ def generate(file_path, ext):
             return None
 
         print("🤖 Invio richiesta a Gemini...")
-        res = model.generate_content(parts)
         
-        if not res.candidates:
-            print("❌ ERRORE: Gemini ha bloccato la risposta o non ha trovato dati validi.")
-            return None
-            
-        print("✅ Risposta ricevuta da Gemini!")
-        return res.text
+        # --- NUOVO MECCANISMO ANTI-BLOCCO (RETRY) ---
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                res = model.generate_content(parts)
+                
+                if not res.candidates:
+                    print("❌ ERRORE: Gemini ha bloccato la risposta o non ha trovato dati validi.")
+                    return None
+                    
+                print("✅ Risposta ricevuta da Gemini!")
+                return res.text
+                
+            except Exception as api_err:
+                error_msg = str(api_err)
+                # Verifica se abbiamo superato la quota gratuita dei 5 RPM
+                if "429" in error_msg or "quota" in error_msg.lower() or "ResourceExhausted" in error_msg:
+                    print(f"⚠️ Errore 429: Limite richieste superato. Tentativo {attempt + 1} di {max_retries}.")
+                    if attempt < max_retries - 1:
+                        attesa = 35 # Pausa di 35 secondi per far ricaricare i contatori di Google
+                        print(f"⏳ Mi metto in pausa per {attesa} secondi. Abbi pazienza, riprovo da solo...")
+                        time.sleep(attesa)
+                    else:
+                        print("❌ ERRORE CRITICO: Quota API esaurita anche dopo le pause. Riprova tra 1-2 minuti.")
+                        return None
+                else:
+                    print(f"❌ ERRORE API: {error_msg}")
+                    return None
+        # --------------------------------------------
         
     except Exception as e: 
-        print(f"❌ ERRORE API o DI SISTEMA: {e}")
+        print(f"❌ ERRORE DI SISTEMA: {e}")
         return None
 
 def main():
