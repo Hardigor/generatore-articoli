@@ -5,8 +5,12 @@ import PyPDF2
 from PIL import Image
 
 # Configurazione API
-API_KEY = os.environ.get("GEMINI_API_KEY", "")
-genai.configure(api_key=API_KEY)
+API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+if not API_KEY:
+    print("❌ ERRORE CRITICO: La chiave GEMINI_API_KEY non è stata trovata nei Secrets!")
+else:
+    print("✅ Chiave API trovata, procedo alla configurazione.")
+    genai.configure(api_key=API_KEY)
 
 # Istruzioni Rigide per il Modello
 instruction = """
@@ -44,7 +48,7 @@ Info: [Contatti]
 """
 
 model = genai.GenerativeModel(
-    model_name='gemini-2.5-flash-preview-09-2025',
+    model_name='gemini-2.5-flash',
     system_instruction=instruction
 )
 
@@ -54,34 +58,69 @@ os.makedirs(INPUT_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def generate(file_path, ext):
-    parts = []
+    print(f"⏳ Inizio elaborazione del file: {file_path}")
+    
+    # È cruciale fornire SEMPRE un prompt di testo insieme al file/immagine
+    parts = ["Estrai i dati da questo documento/immagine e compila ESATTAMENTE i due schemi richiesti."]
+    
     try:
         if ext == '.pdf':
             text = ""
             with open(file_path, 'rb') as f:
                 reader = PyPDF2.PdfReader(f)
-                for page in reader.pages: text += page.extract_text() or ""
-            if not text.strip(): return None # PDF immagine non leggibile come testo
+                for page in reader.pages: 
+                    text += page.extract_text() or ""
+            if not text.strip(): 
+                print("⚠️ Il PDF non contiene testo leggibile. Riprova usando una versione in formato JPG o PNG.")
+                return None
             parts.append(text)
+            print("📄 Testo estratto dal PDF con successo.")
+            
         elif ext in ['.jpg', '.jpeg', '.png']:
-            parts.append(Image.open(file_path))
+            img = Image.open(file_path)
+            parts.append(img)
+            print("🖼️ Immagine caricata con successo.")
+            
         elif ext in ['.doc', '.docx']:
-            parts.append("\n".join([p.text for p in docx.Document(file_path).paragraphs]))
-        else: return None
+            text = "\n".join([p.text for p in docx.Document(file_path).paragraphs])
+            parts.append(text)
+            print("📝 Testo estratto dal file Word con successo.")
+            
+        else: 
+            print(f"🚫 Formato non supportato: {ext}")
+            return None
 
+        print("🤖 Invio richiesta a Gemini...")
         res = model.generate_content(parts)
+        print("✅ Risposta ricevuta da Gemini!")
         return res.text
-    except: return None
+        
+    except Exception as e: 
+        print(f"❌ ERRORE API o DI SISTEMA: {e}")
+        return None
 
 def main():
+    print("🚀 Avvio dello script principale...")
     files = [f for f in os.listdir(INPUT_DIR) if not f.startswith('.')]
+    
+    if not files:
+        print("📁 Nessun file trovato nella cartella 'input'.")
+        return
+
     for f in files:
         path = os.path.join(INPUT_DIR, f)
         ext = os.path.splitext(f)[1].lower()
         output = generate(path, ext)
+        
         if output:
-            with open(os.path.join(OUTPUT_DIR, f"{os.path.splitext(f)[0]}_WP.md"), "w", encoding="utf-8") as out:
+            out_file = os.path.join(OUTPUT_DIR, f"{os.path.splitext(f)[0]}_WP.md")
+            with open(out_file, "w", encoding="utf-8") as out:
                 out.write(output.strip())
+            print(f"💾 File salvato con successo: {out_file}")
+        else:
+            print(f"⚠️ Impossibile generare contenuto per {f}")
+            
+    print("🏁 Elaborazione terminata.")
 
 if __name__ == "__main__":
-    if API_KEY: main()
+    main()
