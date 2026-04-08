@@ -135,7 +135,7 @@ def main():
         else:
             print(f"⚠️ Impossibile generare contenuto per {f}")
             
-    if non successo_totale:
+    if not successo_totale:
         print("❌ ERRORE CRITICO: Nessun file è stato generato con successo. Processo fallito.")
         sys.exit(1)
             
