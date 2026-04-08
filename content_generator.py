@@ -26,6 +26,7 @@ REGOLE TASSATIVE:
 3. Se mancano gli artisti/musicisti nel testo, NON inventarli e NON inserire la parola "Con:". Elimina semplicemente quella sezione.
 4. Sostituisci [GG/MM/AAAA] con la data corretta (es. 28/03/2026), se l'anno non è specificato deduci quello corrente.
 5. I link web e gli indirizzi email devono ESSERE SEMPRE IN MINUSCOLO (es. www.sito.it), anche se nell'originale appaiono in maiuscolo.
+6. Correggi SEMPRE il nome "Fabrizio De Andrè" in "Fabrizio De André" (con l'accento acuto sulla 'e finale).
 
 Copia testualmente questa formattazione Markdown, rispettando rigorosamente le righe vuote e i grassetti (**testo**):
 
@@ -111,7 +112,10 @@ def generate(file_path, ext):
                     return None
                     
                 print("✅ Risposta ricevuta da Gemini!")
-                return res.text
+                
+                # Sostituzione forzata per sicurezza su accenti errati
+                testo_finale = res.text.replace("De Andrè", "De André").replace("DE ANDRÈ", "DE ANDRÉ")
+                return testo_finale
                 
             except Exception as api_err:
                 error_msg = str(api_err)
